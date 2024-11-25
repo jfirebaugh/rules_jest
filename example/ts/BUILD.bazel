@@ -1,0 +1,35 @@
+load("@aspect_rules_jest//jest:defs.bzl", "jest_test")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+
+ts_project(
+    name = "ts",
+    srcs = ["src/index.ts"],
+    out_dir = "dist",
+    tsconfig = "tsconfig.json",
+    transpiler = "tsc",
+    declaration = True,
+    root_dir = "src"
+)
+
+ts_project(
+    name = "ts_tests",
+    srcs = ["src/index.test.ts"],
+    out_dir = "dist",
+    tsconfig = "tsconfig.json",
+    transpiler = "tsc",
+    declaration = True,
+    root_dir = "src",
+    deps = [
+        ":ts",
+        "//example:node_modules/@jest/globals",
+    ],
+)
+
+jest_test(
+    name = "test",
+    config = "jest.config.js",
+    data = [
+        ":ts_tests",
+    ],
+    node_modules = "//:node_modules",
+)
