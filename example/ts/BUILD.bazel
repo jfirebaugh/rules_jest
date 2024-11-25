@@ -3,7 +3,10 @@ load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 
 ts_project(
     name = "ts",
-    srcs = ["src/index.ts"],
+    srcs = [
+        "src/index.ts",         
+        "package.json",
+    ],
     out_dir = "dist",
     tsconfig = "tsconfig.json",
     transpiler = "tsc",
@@ -13,7 +16,10 @@ ts_project(
 
 ts_project(
     name = "ts_tests",
-    srcs = ["src/index.test.ts"],
+    srcs = [
+        "src/index.test.ts",
+        "package.json",
+    ],
     out_dir = "dist",
     tsconfig = "tsconfig.json",
     transpiler = "tsc",
@@ -30,6 +36,7 @@ jest_test(
     config = "jest.config.js",
     data = [
         ":ts_tests",
+        "package.json",
     ],
     node_modules = "//:node_modules",
 )
